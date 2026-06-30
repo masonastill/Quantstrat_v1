@@ -1,0 +1,7 @@
+# Phase 0 research dependencies (local synthetic harness + notebook math).
+# QuantConnect Research already provides these; this file is for local runs.
+numpy>=1.26
+pandas>=2.0
+scipy>=1.11
+statsmodels>=0.14
+nbformat>=5.9
