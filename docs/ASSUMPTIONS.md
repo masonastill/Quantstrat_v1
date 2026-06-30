@@ -7,12 +7,20 @@ Updated every phase.
 ## Phase 0
 
 ### Data
-- **Source:** QuantConnect `QuantBook` (survivorship-bias-free, point-in-time,
-  adjusted). *Why:* native to LEAN target; correct integrity properties.
-  *Risk:* none beyond vendor coverage; **but** real numbers are not yet
-  generated because this build environment blocks external data hosts.
-- **History window:** 2008-01-01 → 2023-12-31. *Why:* include 2008, 2018-Q4,
-  2020, 2022 so the true left tail is visible (also needed in Phase 3).
+- **Source ACTUALLY USED for Phase 0:** `stockanalysis.com` open JSON endpoint
+  (no key), ~10y daily split/dividend-adjusted prices, 296 liquid US large/mid
+  caps, 2016→2026. *Why:* QuantConnect's API requires a paid org (free account
+  can't get a token); free vendors (Yahoo/Stooq) were IP-blocked or behind a
+  bot wall. *Risk:* **survivor-biased, ~2016-start, large-cap-only** — inflates
+  absolute returns, hides left tail, understates factor edges. Cross-sectional
+  ICs and the cross-sleeve correlation are the robust takeaways; absolute/tail
+  metrics are provisional. **Must be re-confirmed on survivorship-free,
+  point-in-time data.**
+- **Survivorship-free re-run path:** QuantConnect `QuantBook` notebook is kept
+  for when a funded QC org (or CRSP) is available.
+- **History window (real run):** 2016-06 → 2026-06. *Limitation:* omits 2008 and
+  the 2010 flash crash — the worst left-tail regimes. Phase 3 stress testing
+  needs a longer, survivorship-free history.
 - **Prices:** split/dividend-adjusted close. *Risk:* adjusted prices can leak
   if mishandled; mitigated by using backward-only signal windows and never
   trading on the adjustment itself.
@@ -34,6 +42,13 @@ Updated every phase.
   *Why:* short-horizon reversal is a ~1-week effect. *Risk:* horizon `[CHOICE]`.
 - **MR residual:** `price / MA(20) − 1`, z-scored over `5×20=100` days.
   *Why:* a stationary, dimensionless state variable; never trade raw price.
+- **Time-series trend proxy (Q6):** name in uptrend if `price > MA(200)`.
+  *Why:* a crude faithful-er proxy for Sleeve A than cross-sectional momentum,
+  to test trend-vs-reversal correlation. *Risk:* an on/off MA filter is NOT the
+  chandelier-exit strategy and does not capture its skew — used only for the
+  correlation study, not as a performance claim.
+- **Universe breadth test:** ran both a 104-name and a 296-name list to check
+  whether weak edges were a mega-cap artifact (they were not).
 
 ### Portfolio-stream construction (for the correlation test only)
 - **Books:** dollar-neutral, equal-weight **terciles** (`n_groups=3`), long top

@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "n_names": 296,
+    "start": "2015-12-10",
+    "end": "2026-06-30",
+    "n_days": 2652,
+    "source": "stockanalysis.com (survivor-biased)"
+  },
+  "Q1_momentum_ic": {
+    "naive": {
+      "n_periods": 2240,
+      "mean_ic": 0.005576030682734704,
+      "ic_std": 0.2172975698830538,
+      "ic_ir": 0.025660805529190398,
+      "t_stat": 1.2144909824743533
+    },
+    "nonoverlap": {
+      "mean_ic": 0.006070277888767298,
+      "n_indep": 107,
+      "t_stat": 0.2684501429798294,
+      "significant_5pct": false
+    }
+  },
+  "Q2_reversal_ic": {
+    "naive": {
+      "n_periods": 2503,
+      "mean_ic": 0.014824417907207012,
+      "ic_std": 0.19865445494222145,
+      "ic_ir": 0.07462414025156741,
+      "t_stat": 3.733445065571324
+    },
+    "nonoverlap": {
+      "mean_ic": 0.013001827960995364,
+      "n_indep": 501,
+      "t_stat": 1.399848547327212,
+      "significant_5pct": false
+    }
+  },
+  "Q3_distribution": {
+    "n": 34882,
+    "mean_daily": 0.01474886360804695,
+    "std_daily": 0.09427130360896856,
+    "ann_return": 3.7167136292278316,
+    "ann_vol": 1.49651055071518,
+    "sharpe": 2.4835866525976855,
+    "skew": 0.13102905674804352,
+    "excess_kurtosis": 6.327373511101763,
+    "tail_ratio_5pct": 1.294261992043659,
+    "var_95": -0.12271018128174939,
+    "cvar_95": -0.19861460996822275
+  },
+  "Q4_sleeves": {
+    "cross_sleeve_corr": 0.04445556631710404,
+    "sleeve_a_momentum": {
+      "n": 2652,
+      "mean_daily": 1.5229862922226546e-05,
+      "std_daily": 0.004828451971935253,
+      "ann_return": 0.0038379254564010895,
+      "ann_vol": 0.07664929881096062,
+      "sharpe": 0.050071240258394614,
+      "skew": -1.4139763100237999,
+      "excess_kurtosis": 15.471464626823526,
+      "tail_ratio_5pct": 0.9177052471279179,
+      "var_95": -0.007659428075055453,
+      "cvar_95": -0.012201317378308449
+    },
+    "sleeve_b_reversal": {
+      "n": 2652,
+      "mean_daily": 8.68970933849811e-05,
+      "std_daily": 0.004451923277732836,
+      "ann_return": 0.021898067533015236,
+      "ann_vol": 0.07067209109292372,
+      "sharpe": 0.30985452948070263,
+      "skew": 0.6351380225142242,
+      "excess_kurtosis": 13.30158092802985,
+      "tail_ratio_5pct": 1.0863543247986645,
+      "var_95": -0.006135960639371583,
+      "cvar_95": -0.010000099593687094
+    },
+    "blend_50_50": {
+      "n": 2652,
+      "mean_daily": 5.1063478153603804e-05,
+      "std_daily": 0.003355770922239915,
+      "ann_return": 0.012867996494708158,
+      "ann_vol": 0.05327121190289212,
+      "sharpe": 0.2415562934472972,
+      "skew": -0.44223665386963623,
+      "excess_kurtosis": 10.293477475024076,
+      "tail_ratio_5pct": 0.9709989253075043,
+      "var_95": -0.0051269502426029645,
+      "cvar_95": -0.008435697314453946
+    }
+  },
+  "Q6_trend_vs_reversal": {
+    "corr_trend_longonly_reversal": 0.12679188703672503,
+    "corr_trend_neutral_reversal": -0.30325004967368524,
+    "trend_longonly_skew": -0.83537267592055,
+    "trend_neutral_skew": -1.3616587587610876,
+    "tail_conditional": {
+      "tail_corr": 0.28718497302347973,
+      "a_mean_on_bad": -0.021369263045096447,
+      "b_mean_on_bad": -0.001729550007416703,
+      "market_mean_on_bad": -0.026592801585723736,
+      "n_bad_days": 133
+    }
+  },
+  "Q5_stationarity": {
+    "frac_adf_stationary": 1.0,
+    "mean_adf_p": 2.6573198275001e-13,
+    "mean_hurst_price": 0.4771318799768376
+  }
+}

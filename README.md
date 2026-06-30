@@ -18,7 +18,7 @@ Target runtime: **QuantConnect / LEAN** (Algorithm Framework).
 
 | Phase | What | Status |
 |---|---|---|
-| **0** | Research notebook: confirm momentum & reversal, distribution shape, sleeve anti-correlation, residual stationarity | **✅ code complete; awaiting real-data run + review** |
+| **0** | Research notebook: confirm momentum & reversal, distribution shape, sleeve anti-correlation, residual stationarity | **✅ run on real data (10y, survivor-biased); awaiting review.** Premises only *partially* supported — see `docs/PHASE0_FINDINGS.md` |
 | 1 | Minimal LEAN backtest, ≤5–6 params/sleeve, realistic costs | not started |
 | 2 | Robustness (param plateaus, walk-forward, Deflated Sharpe, PBO) | not started |
 | 3 | Skew-aware evaluation + historical stress windows | not started |
@@ -30,32 +30,39 @@ Target runtime: **QuantConnect / LEAN** (Algorithm Framework).
 
 ```
 research/
-  sleeve_research.py      Pure analysis primitives (shared by notebook + harness)
-  phase0_research.ipynb   QuantBook notebook -> produces the REAL Phase 0 findings
-  synthetic_data.py       Synthetic price generator (code validation ONLY)
-  run_synthetic_demo.py   Local driver; runs Phase 0 analysis on synthetic data
-  _build_notebook.py      Regenerates the notebook from source (reproducible)
+  sleeve_research.py        Pure analysis primitives (shared everywhere)
+  data_stockanalysis.py     Real daily-price loader (cached) + universes
+  run_real_phase0.py        Driver: Phase 0 on REAL data -> findings
+  _phase0_real_results.json Raw results from the real run
+  phase0_research.ipynb     QuantBook notebook (survivorship-free re-run)
+  synthetic_data.py         Synthetic price generator (code validation ONLY)
+  run_synthetic_demo.py     Local driver on synthetic data
+  _build_notebook.py        Regenerates the notebook from source
+  _data_cache/              Cached per-symbol CSVs (gitignored)
 docs/
-  PHASE0_FINDINGS.md      Findings summary + the data-constraint note
-  ASSUMPTIONS.md          Running assumptions & [CHOICE] log
+  PHASE0_FINDINGS.md        Findings summary + data-provenance caveats
+  ASSUMPTIONS.md            Running assumptions & [CHOICE] log
 requirements.txt
 ```
 
 ## Running
 
-**Real findings (recommended):** open `research/phase0_research.ipynb` in
-QuantConnect Research, add `sleeve_research.py` to the project, run top-to-bottom
-with the Option-A point-in-time universe.
-
-**Local code validation (synthetic, no market data needed):**
+**Real Phase 0 (10y daily data, no API key):**
 ```bash
 pip install -r requirements.txt
-cd research && python3 run_synthetic_demo.py
+cd research && python3 run_real_phase0.py      # caches data under _data_cache/
 ```
 
-## Important constraint
+**Survivorship-free re-run (recommended once data is available):** open
+`research/phase0_research.ipynb` in QuantConnect Research (needs a funded org),
+add `sleeve_research.py` to the project, run top-to-bottom with the Option-A
+point-in-time universe.
 
-This build environment **cannot reach external market-data vendors** (network
-policy blocks them). Real Phase 0 numbers must be generated in QuantBook. The
-synthetic harness validates the *code*, not any market claim. See
-`docs/PHASE0_FINDINGS.md §0`.
+**Local code validation (synthetic):** `cd research && python3 run_synthetic_demo.py`
+
+## Data caveat
+
+The free `stockanalysis.com` source is **survivor-biased** and starts ~2016 (no
+2008). It's fine as a development sandbox but absolute returns/tails are
+optimistic; re-confirm on survivorship-free, point-in-time data before trusting
+them. See `docs/PHASE0_FINDINGS.md §0`.

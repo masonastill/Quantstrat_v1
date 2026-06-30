@@ -199,6 +199,56 @@ def long_short_returns(prices: pd.DataFrame, signal: pd.DataFrame,
 
 
 # --------------------------------------------------------------------------- #
+# Time-series trend stream (faithful-ish proxy for Sleeve A's trend leg)
+# --------------------------------------------------------------------------- #
+def timeseries_trend_returns(prices: pd.DataFrame, ma_window: int = 200,
+                             dollar_neutral: bool = True, lag: int = 1) -> pd.Series:
+    """Daily return stream of a simple time-series trend book.
+
+    Each name is 'in an uptrend' when price > its own `ma_window` MA. We then
+    either own the uptrenders equal-weight and sit in cash otherwise
+    (`dollar_neutral=False`, long-only, market-beta), or go long uptrenders /
+    short downtrenders equal-weight (`dollar_neutral=True`, market-neutral).
+
+    NOTE: this is a *crude* trend proxy (an on/off MA filter). It deliberately
+    does NOT include the chandelier trailing stop / asymmetric exits that give
+    real trend-following its positive skew, so do not read its skew as the
+    strategy's skew — that property must be engineered in the exit logic and
+    verified in Phase 1. Used here only to study trend-vs-reversal correlation.
+    """
+    rets = simple_returns(prices)
+    up = (prices > prices.rolling(ma_window, min_periods=ma_window).mean()).astype(float)
+    if dollar_neutral:
+        sig = up * 2 - 1                       # +1 uptrend, -1 downtrend
+        w = sig.div(sig.abs().sum(axis=1).replace(0, np.nan), axis=0)
+    else:
+        w = up.div(up.sum(axis=1).replace(0, np.nan), axis=0)
+    out = (w.shift(lag) * rets).sum(axis=1)
+    out.name = "ts_trend_return"
+    return out.dropna()
+
+
+def tail_conditional_correlation(a: pd.Series, b: pd.Series, market: pd.Series,
+                                 q: float = 0.05) -> dict:
+    """Correlation of streams a,b restricted to the worst `q` market days.
+
+    A diversifier must hold up in the LEFT tail; an all-regime correlation can
+    hide co-crashing. Returns the conditional correlation plus each stream's
+    mean return on those worst days.
+    """
+    a, b = a.align(b, join="inner")
+    m = market.reindex(a.index)
+    bad = m < m.quantile(q)
+    return {
+        "tail_corr": float(a[bad].corr(b[bad])),
+        "a_mean_on_bad": float(a[bad].mean()),
+        "b_mean_on_bad": float(b[bad].mean()),
+        "market_mean_on_bad": float(m[bad].mean()),
+        "n_bad_days": int(bad.sum()),
+    }
+
+
+# --------------------------------------------------------------------------- #
 # Distribution characterization (fat tails / skew)
 # --------------------------------------------------------------------------- #
 def tail_ratio(returns: pd.Series, q: float = 0.05) -> float:
