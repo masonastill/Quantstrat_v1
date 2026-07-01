@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "n_names": 296,
+    "start": "2015-12-10",
+    "end": "2026-06-30",
+    "source": "stockanalysis.com (survivor-biased sandbox)"
+  },
+  "performance": {
+    "years": 10.51984126984127,
+    "cagr": -0.016155419038167862,
+    "ann_vol": 0.097025103935385,
+    "sharpe": -0.11919488775821356,
+    "sortino": -0.14028503539856363,
+    "max_drawdown": -0.2767805367428634,
+    "calmar": -0.05836905740657871,
+    "skew": -0.8289569560743403,
+    "excess_kurtosis": 4.802633323205662,
+    "tail_ratio": 0.938459698193067,
+    "gross_ann_return": 0.037844229131519344,
+    "net_ann_return": -0.011564896373307217
+  },
+  "cost_drag_bps_per_yr": {
+    "cost_spread_slip": 417.33610648187647,
+    "cost_commission": 66.20294742170387,
+    "cost_impact": 6.2165284593999754e-06,
+    "cost_borrow": 10.897721232957645
+  },
+  "total_cost_drag_bps_per_yr": 494.43678135306646,
+  "avg_gross_leverage": 0.8061645353867822,
+  "avg_net_leverage": 0.3704200559211604,
+  "time_in_defensive_regime": 0.08861236802413273,
+  "avg_daily_turnover_1way": 0.3312191321284733
+}

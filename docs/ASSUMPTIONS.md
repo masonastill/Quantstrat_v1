@@ -72,10 +72,26 @@ Updated every phase.
   (`phi=0.60`) ⇒ reversal; GARCH-like market factor ⇒ regime/vol clustering.
   *Purpose:* exercise the code; **not** evidence about real markets.
 
+## Phase 1 — choices resolved (defaults, NOT optimized; see phase1_backtest.py)
+- **risk_fraction:** 0.15% NAV/trade (ATR risk unit). Mid of the 0.10–0.25% range.
+- **Vol target:** 10% annualized (reactive, lagged scale, clipped [0.25, 1.5]).
+- **Caps:** name 5%, sector 20% (coarse sandbox sector map), gross 1.5×, net 0.6×.
+- **Sleeve split:** 50/50 trend/MR. *Flagged for Phase 2:* MR turnover argues for
+  a trend-heavier split to restore positive skew.
+- **Short leg:** MR short leg ENABLED (trend-gated: short only below 200d MA).
+  Trend sleeve is long-only for v1. *Open:* keep/drop MR short — ask at gate.
+- **Regime governor:** index 200d MA + 20d realized vol > 20% → throttle gross to
+  30%. Three params, few as intended.
+- **Costs:** commission $0.005/sh, slippage 3 bps, half-spread 2 bps, impact
+  8 bps/1%ADV, borrow 0.5%/yr. Conservative-ish for liquid large-caps.
+- **ATR proxy (sandbox only):** close-to-close EWM vol × price, because the free
+  source's H/L are unadjusted while close is adjusted — mixing across splits
+  would be wrong. The LEAN algo uses a proper ATR indicator on real OHLC.
+- **KEY finding feeding Phase 2:** MR sleeve ~77%/day turnover (2.3-day holds) →
+  ~494 bps/yr drag → net negative. Turnover control is the #1 Phase-2 lever.
+
 ## Open `[CHOICE]`s deferred to later phases
-- `risk_fraction` per trade (0.10%–0.25%) — Phase 1 sizing.
-- Portfolio vol target (8%–12% annualized) — Phase 1.
-- Gross/net leverage caps (e.g. gross ≤ 1.5×), sector/sub-sector caps — Phase 1.
-- Short leg on/off (borrow & liquidity gated) — Phase 1.
-- Regime-governor thresholds (index MA length, realized-vol cutoff) — Phase 1.
+- MR turnover control mechanism (rebalance band vs longer holds vs selectivity).
+- Whether the MR sleeve / short leg survives costs in liquid large-caps at all.
 - Extension to liquid futures for true diversification — post-Phase 3.
+- Survivorship-free, 2008-inclusive data re-validation — Phase 2 gate.

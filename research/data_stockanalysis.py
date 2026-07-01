@@ -159,3 +159,59 @@ _EXTRA_UNIVERSE = [
 
 # De-duplicated union, order preserved.
 EXTENDED_UNIVERSE = list(dict.fromkeys(DEFAULT_UNIVERSE + _EXTRA_UNIVERSE))
+
+
+# Coarse GICS-ish sector map for concentration caps (Phase 1). Best-effort over
+# the universe above; names not listed fall back to "Other". This is a sandbox
+# approximation, NOT point-in-time GICS — replace with real classifications when
+# moving off the free data source.
+SECTOR_MAP = {s: "InfoTech" for s in [
+    "AAPL", "MSFT", "NVDA", "AVGO", "ORCL", "CSCO", "ADBE", "CRM", "ACN", "TXN",
+    "QCOM", "INTC", "AMD", "IBM", "INTU", "NOW", "AMAT", "MU", "PANW", "SNPS",
+    "CDNS", "KLAC", "LRCX", "ADI", "MCHP", "FTNT", "ANET", "ROP", "MSI", "ADSK",
+    "WDAY", "TEAM", "DDOG", "ZS", "CRWD", "NET", "SNOW", "PLTR", "MRVL", "ON",
+    "NXPI", "STX", "WDC", "HPQ", "DELL", "HPE", "CTSH", "IT", "GLW", "KEYS",
+    "V", "MA", "PYPL"]}
+SECTOR_MAP.update({s: "CommServices" for s in [
+    "GOOGL", "META", "NFLX", "DIS", "CMCSA", "T", "VZ", "TMUS", "CHTR", "EA",
+    "TTWO"]})
+SECTOR_MAP.update({s: "ConsDisc" for s in [
+    "AMZN", "TSLA", "HD", "LOW", "NKE", "MCD", "SBUX", "BKNG", "TJX", "F", "GM",
+    "LULU", "ROST", "YUM", "CMG", "DPZ", "MAR", "HLT", "RCL", "CCL", "EXPE",
+    "APTV", "LEN", "DHI", "NVR", "PHM", "WHR", "BBY", "ULTA", "TSCO", "ORLY",
+    "AZO", "GPC", "KMX", "UBER", "ABNB", "SHOP"]})
+SECTOR_MAP.update({s: "ConsStaples" for s in [
+    "PG", "KO", "PEP", "WMT", "COST", "TGT", "MDLZ", "CL", "MO", "PM", "KMB",
+    "KHC", "GIS", "K", "HSY", "STZ", "KDP", "SYY", "ADM", "KR", "DG", "DLTR",
+    "HRL", "CAG", "CPB"]})
+SECTOR_MAP.update({s: "HealthCare" for s in [
+    "UNH", "JNJ", "LLY", "PFE", "MRK", "ABBV", "TMO", "ABT", "DHR", "BMY",
+    "AMGN", "GILD", "CVS", "MDT", "ISRG", "VRTX", "REGN", "ZTS", "BSX", "SYK",
+    "BDX", "EW", "HUM", "CI", "CNC", "ELV", "MCK", "COR", "IDXX", "IQV", "A",
+    "DXCM", "MTD", "WST", "RMD", "BIIB", "MRNA", "HCA", "CAH", "ZBH", "BAX"]})
+SECTOR_MAP.update({s: "Financials" for s in [
+    "BRK.B", "JPM", "BAC", "WFC", "C", "GS", "MS", "BLK", "SPGI", "AXP", "SCHW",
+    "USB", "PNC", "CB", "MMC", "TFC", "COF", "BK", "STT", "TROW", "NTRS", "FITB",
+    "HBAN", "RF", "CFG", "KEY", "MTB", "ICE", "CME", "MCO", "AON", "AJG", "TRV",
+    "ALL", "PGR", "MET", "PRU", "AIG", "AFL", "DFS", "SYF"]})
+SECTOR_MAP.update({s: "Industrials" for s in [
+    "CAT", "DE", "BA", "HON", "GE", "MMM", "UPS", "RTX", "LMT", "UNP", "EMR",
+    "GD", "NOC", "ITW", "ETN", "PH", "ROK", "DOV", "FDX", "CSX", "NSC", "WM",
+    "RSG", "PCAR", "CMI", "FAST", "GWW", "URI", "CARR", "OTIS", "JCI", "IR",
+    "AME", "EFX", "VRSK", "PWR"]})
+SECTOR_MAP.update({s: "Energy" for s in [
+    "XOM", "CVX", "COP", "SLB", "EOG", "MPC", "PSX", "VLO", "OXY", "WMB", "KMI",
+    "OKE", "HAL", "BKR", "DVN", "FANG", "HES"]})
+SECTOR_MAP.update({s: "Materials" for s in [
+    "LIN", "APD", "FCX", "NEM", "SHW", "ECL", "NUE", "DOW", "DD", "PPG", "VMC",
+    "MLM", "CTVA", "ALB"]})
+SECTOR_MAP.update({s: "Utilities" for s in [
+    "NEE", "DUK", "SO", "D", "AEP", "EXC", "XEL", "SRE", "PEG", "ED", "WEC",
+    "ES", "AEE", "DTE", "PCG", "EIX", "CEG"]})
+SECTOR_MAP.update({s: "RealEstate" for s in [
+    "AMT", "PLD", "SPG", "O", "CCI", "EQIX", "PSA", "DLR", "WELL", "AVB", "EQR",
+    "VTR", "ARE", "CBRE"]})
+
+
+def sector_of(symbol: str) -> str:
+    return SECTOR_MAP.get(symbol.upper(), "Other")
