@@ -21,8 +21,9 @@ Target runtime: **QuantConnect / LEAN** (Algorithm Framework).
 | **0** | Research notebook: confirm momentum & reversal, distribution shape, sleeve anti-correlation, residual stationarity | **✅ done (real 10y sandbox).** Premises only *partially* supported — `docs/PHASE0_FINDINGS.md` |
 | **1** | Minimal backtest, ≤5–6 params/sleeve, realistic costs | **✅ done.** Net **−1.2%/yr** — costs (MR turnover ~77%/day) dominate; skew negative. `docs/PHASE1_FINDINGS.md` |
 | **2** | Robustness (param plateaus, walk-forward, Deflated Sharpe, PBO) | **✅ done.** MR sleeve **rejected** (fails OOS + negative control); trend-only robust but **DSR 0.65<0.95** and daily-skew negative. `docs/PHASE2_FINDINGS.md` |
-| **1.5** | Redesign trend sleeve for positive skew (drop MR) | **✅ done; awaiting review.** Positive skew **achieved** (trade-R **+3.0**, monthly +0.08); turnover 83×→7.5×; Sharpe ~0.4. `docs/PHASE15_FINDINGS.md` |
-| 3 | Skew-aware evaluation + historical stress windows | not started |
+| **1.5** | Redesign trend sleeve for positive skew (drop MR) | **✅ done.** Positive skew **achieved** (trade-R +3.0, monthly +0.08). `docs/PHASE15_FINDINGS.md` |
+| **2-v2** | Re-run robustness battery on trend-v2 | **✅ done.** PBO 0.10, DSR **0.87** (↑ from 0.65), 100% subset-positive; neg-control inconclusive. `docs/PHASE2_V2_FINDINGS.md` |
+| **3** | Skew-aware evaluation + historical stress windows | **✅ done; awaiting review.** Skew +0.28 monthly, maxDD −16% but **~2.3y underwater**; loses less than market in 2018/2020/2022; **2008 untested**. `docs/PHASE3_FINDINGS.md` |
 | 4 | Paper/live staging, monitoring, kill-switch, pre-live checklist | not started |
 
 > No phase begins until the previous gate is approved with **"proceed"**.
@@ -40,6 +41,8 @@ research/
   run_phase2.py             Phase 2 robustness battery
   phase15_trend.py          Redesigned fixed-shares, let-winners-run trend sleeve
   run_phase15.py            Phase 1.5 driver: skew-by-frequency + trade R-multiples
+  run_phase2_v2.py          Phase 2 battery re-run on trend-v2
+  run_phase3.py             Phase 3 skew-aware metrics + stress windows
   data_stockanalysis.py     Real daily-price loader (cached) + universes
   run_real_phase0.py        Driver: Phase 0 on REAL data -> findings
   _phase0_real_results.json Raw results from the real run

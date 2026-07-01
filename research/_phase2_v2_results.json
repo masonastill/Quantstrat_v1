@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "n_names": 296,
+    "start": "2015-12-10",
+    "end": "2026-06-30",
+    "source": "stockanalysis.com (survivor-biased sandbox)"
+  },
+  "parameter_robustness": {
+    "chandelier_atr": {
+      "3.0": {
+        "sharpe": 0.31,
+        "mskew": 0.82
+      },
+      "4.0": {
+        "sharpe": 0.31,
+        "mskew": 0.28
+      },
+      "5.0": {
+        "sharpe": 0.41,
+        "mskew": 0.08
+      },
+      "6.0": {
+        "sharpe": 0.57,
+        "mskew": -0.09
+      },
+      "7.0": {
+        "sharpe": 0.57,
+        "mskew": -0.32
+      }
+    },
+    "donchian": {
+      "50": {
+        "sharpe": 0.47,
+        "mskew": 0.06
+      },
+      "100": {
+        "sharpe": 0.41,
+        "mskew": 0.08
+      },
+      "150": {
+        "sharpe": 0.44,
+        "mskew": 0.1
+      },
+      "200": {
+        "sharpe": 0.44,
+        "mskew": 0.07
+      }
+    },
+    "rs_top_pct": {
+      "0.2": {
+        "sharpe": 0.36,
+        "mskew": 0.29
+      },
+      "0.4": {
+        "sharpe": 0.41,
+        "mskew": 0.08
+      },
+      "0.6": {
+        "sharpe": 0.48,
+        "mskew": -0.1
+      },
+      "1.0": {
+        "sharpe": 0.49,
+        "mskew": -0.27
+      }
+    },
+    "risk_fraction": {
+      "0.001": {
+        "sharpe": 0.38,
+        "mskew": 0.09
+      },
+      "0.0015": {
+        "sharpe": 0.41,
+        "mskew": 0.08
+      },
+      "0.002": {
+        "sharpe": 0.44,
+        "mskew": 0.12
+      },
+      "0.003": {
+        "sharpe": 0.52,
+        "mskew": 0.09
+      }
+    }
+  },
+  "universal_principle": {
+    "sharpe_mean": 0.3889195398553875,
+    "sharpe_std": 0.07333731937941691,
+    "frac_sharpe_positive": 1.0,
+    "frac_mskew_positive": 0.75
+  },
+  "negative_control": {
+    "uptrend": {
+      "sharpe": 0.41,
+      "ann_ret": 0.052,
+      "frac_days": 0.15
+    },
+    "choppy": {
+      "sharpe": 0.42,
+      "ann_ret": 0.048,
+      "frac_days": 0.81
+    },
+    "downtrend": {
+      "sharpe": 0.01,
+      "ann_ret": 0.0,
+      "frac_days": 0.03
+    }
+  },
+  "walk_forward": {
+    "train": {
+      "sharpe": 0.58,
+      "mskew": 0.16,
+      "net_ann": 0.0573,
+      "maxDD": -0.139
+    },
+    "validation": {
+      "sharpe": 0.28,
+      "mskew": -0.56,
+      "net_ann": 0.0397,
+      "maxDD": -0.153
+    },
+    "holdout": {
+      "sharpe": 0.36,
+      "mskew": 0.29,
+      "net_ann": 0.0412,
+      "maxDD": -0.153
+    }
+  },
+  "multiple_testing": {
+    "best_config": "ch6.0_dn150_rf0.002",
+    "deflated_sharpe": {
+      "sharpe_annual": 0.606557706084007,
+      "sr0_benchmark_annual": 0.24836272127729508,
+      "n_trials": 40,
+      "dsr": 0.8734890174275431,
+      "passes_0.95": false
+    },
+    "pbo": {
+      "pbo": 0.09523809523809523,
+      "n_configs": 12,
+      "n_splits": 10,
+      "median_logit": 1.2039728043259361
+    },
+    "n_trials_assumed": 40
+  }
+}

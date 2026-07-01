@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "config": "chandelier=4xATR, rs_top=0.40, donchian=100, risk_fraction=0.0015",
+    "n_names": 296,
+    "start": "2015-12-10",
+    "end": "2026-06-30",
+    "source": "stockanalysis.com (survivor-biased sandbox)"
+  },
+  "metrics": {
+    "cagr": 0.028372986599349614,
+    "ann_vol": 0.10800268719447106,
+    "sharpe": 0.31328022173962106,
+    "sortino": 0.33330040787706516,
+    "calmar_mar": 0.1766502593692175,
+    "max_drawdown": -0.1606167276553334,
+    "recovery_days": 387,
+    "longest_underwater_days": 578,
+    "skew_daily": -0.9430557423642618,
+    "skew_monthly": 0.2759636732378446,
+    "excess_kurtosis_daily": 7.5825230684498965,
+    "tail_ratio": 0.9054672066510575,
+    "win_rate": 0.39593908629441626,
+    "avg_win_R": 1.2534054810096198,
+    "avg_loss_R": -0.7056738215020707,
+    "expectancy_R": 0.07000224751271031,
+    "payoff_ratio": 1.7761824837736904,
+    "best_R": 11.994725312099389,
+    "worst_R": -3.5793381453615387,
+    "n_trades": 2364,
+    "avg_annual_turnover_x": 10.089560597036115
+  },
+  "capacity": {
+    "median_name_ADV_usd": 280852646.26438725,
+    "assumed_entry_weight": 0.02,
+    "assumed_adv_participation_cap": 0.1,
+    "approx_capacity_usd": 1404263231.3219364
+  },
+  "stress_windows": {
+    "2018Q4_selloff": {
+      "strategy_return": -0.10961509449348938,
+      "strategy_maxDD": -0.11609384392286959,
+      "worst_day": -0.031755642111983895,
+      "market_return": -0.12098112000736372
+    },
+    "2020_covid_crash": {
+      "strategy_return": -0.11750905173372239,
+      "strategy_maxDD": -0.12586879123097305,
+      "worst_day": -0.04418422752939222,
+      "market_return": -0.13603179158350898
+    },
+    "2022_bear": {
+      "strategy_return": -0.06937792618243044,
+      "strategy_maxDD": -0.10803696794545614,
+      "worst_day": -0.02697703380166283,
+      "market_return": -0.08735828720197503
+    }
+  }
+}
