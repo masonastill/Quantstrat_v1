@@ -43,6 +43,8 @@ class MRParams:
     z_exit: float = 0.5          # exit as |z| reverts <= 0.5
     trend_gate: int = 200        # long only above 200d MA; short only below
     hard_atr_stop: float = 2.0   # tight stop: exit if adverse move > 2*ATR
+    min_hold: int = 1            # min days before a revert/flip exit (stop always
+    #                              honored). >1 lengthens holds -> cuts turnover.
 
 
 @dataclass
@@ -56,6 +58,8 @@ class RiskParams:
     net_cap: float = 0.60           # max |net| leverage (long-biased profile)
     alloc_trend: float = 0.5        # sleeve budget split
     alloc_mr: float = 0.5
+    rebalance_band: float = 0.0     # no-trade band: skip trades smaller than this
+    #                                 fraction of NAV (cuts drift churn). 0 = off.
 
 
 @dataclass
@@ -159,24 +163,26 @@ def mr_sleeve(prices: pd.DataFrame, cfg: Config) -> pd.DataFrame:
     T, N = px.shape
     w = np.zeros((T, N))
     for j in range(N):
-        pos = 0; entry_px = np.nan
+        pos = 0; entry_px = np.nan; held = 0
         for t in range(T):
             if not np.isfinite(px[t, j]) or not np.isfinite(zz[t, j]):
-                pos = 0; w[t, j] = 0.0; continue
+                pos = 0; held = 0; w[t, j] = 0.0; continue
             if pos == 0:
                 if zz[t, j] <= -p.z_entry and ab[t, j]:           # oversold + uptrend
-                    pos = 1; entry_px = px[t, j]
+                    pos = 1; entry_px = px[t, j]; held = 0
                 elif zz[t, j] >= p.z_entry and not ab[t, j]:       # overbought + downtrend
-                    pos = -1; entry_px = px[t, j]
+                    pos = -1; entry_px = px[t, j]; held = 0
             else:
-                # tight ATR stop (the fat-left-tail control for this sleeve)
+                held += 1
+                # tight ATR stop (the fat-left-tail control) — always honored
                 adverse = (entry_px - px[t, j]) if pos == 1 else (px[t, j] - entry_px)
                 stop_hit = adverse > p.hard_atr_stop * at[t, j]
+                # revert/flip exits gated by the minimum holding period
                 revert = abs(zz[t, j]) <= p.z_exit
                 flip = (pos == 1 and zz[t, j] >= p.z_entry) or \
                        (pos == -1 and zz[t, j] <= -p.z_entry)
-                if stop_hit or revert or flip:
-                    pos = 0
+                if stop_hit or ((revert or flip) and held >= p.min_hold):
+                    pos = 0; held = 0
             w[t, j] = pos * (sz[t, j] if np.isfinite(sz[t, j]) else 0.0)
     return pd.DataFrame(w, index=prices.index, columns=prices.columns)
 
@@ -205,22 +211,21 @@ def _apply_caps(W: pd.DataFrame, sectors: dict, risk: RiskParams) -> pd.DataFram
     return W
 
 
-def build_portfolio(prices, volume, sectors, cfg: Config):
-    """Returns (final_weights, components) with both sleeves combined, capped,
-    vol-targeted and regime-throttled."""
-    w_a = trend_sleeve(prices, volume, cfg) * cfg.risk.alloc_trend
-    w_b = mr_sleeve(prices, cfg) * cfg.risk.alloc_mr
-    W = (w_a.fillna(0) + w_b.fillna(0))
-    W = _apply_caps(W, sectors, cfg.risk)
+def combine_and_overlay(w_a_raw, w_b_raw, prices, sectors, cfg: Config):
+    """Combine the two RAW sleeve weight panels using the allocation split, then
+    apply caps, portfolio vol targeting and the regime throttle. Factored out so
+    the Phase 2 robustness battery can reuse it without recomputing the (slow)
+    per-name sleeve state machines when only allocation/caps/overlays change."""
+    w_a = w_a_raw.fillna(0) * cfg.risk.alloc_trend
+    w_b = w_b_raw.fillna(0) * cfg.risk.alloc_mr
+    W = _apply_caps(w_a + w_b, sectors, cfg.risk)
 
-    # portfolio vol target (reactive, lagged): scale by target/realized
     rets = prices.pct_change()
     unscaled = (W.shift(1) * rets).sum(axis=1)
     realized = unscaled.rolling(60, min_periods=20).std() * np.sqrt(252)
     scale = (cfg.risk.vol_target_annual / realized).clip(0.25, 1.5).shift(1).fillna(1.0)
     W = W.mul(scale, axis=0)
 
-    # regime governor: defensive when index < MA AND realized vol elevated
     idx = (1 + rets.mean(axis=1)).cumprod()
     idx_ma = idx.rolling(cfg.regime_ma, min_periods=cfg.regime_ma).mean()
     idx_vol = rets.mean(axis=1).rolling(20).std() * np.sqrt(252)
@@ -231,10 +236,17 @@ def build_portfolio(prices, volume, sectors, cfg: Config):
                "stressed": stressed}
 
 
+def build_portfolio(prices, volume, sectors, cfg: Config):
+    """Full pipeline: compute both sleeves then combine/overlay."""
+    w_a = trend_sleeve(prices, volume, cfg)
+    w_b = mr_sleeve(prices, cfg)
+    return combine_and_overlay(w_a, w_b, prices, sectors, cfg)
+
+
 # --------------------------------------------------------------------------- #
 # Simulation with explicit cost accounting
 # --------------------------------------------------------------------------- #
-def simulate(prices, volume, W, cost: CostModel):
+def simulate(prices, volume, W, cost: CostModel, rebalance_band: float = 0.0):
     rets = prices.pct_change().fillna(0.0).values
     px = prices.values
     adv_dollar = (prices * volume.rolling(20, min_periods=5).mean()).values
@@ -249,6 +261,11 @@ def simulate(prices, volume, W, cost: CostModel):
         pr = np.nan_to_num(prev * r).sum()              # gross return on held book
         drift = (prev * (1 + r)) / (1 + pr) if (1 + pr) else prev
         tgt = np.nan_to_num(Wv[t])
+        # no-trade band: leave a name at its drifted weight unless the required
+        # move exceeds the band (cuts drift churn; real entries/exits still fire)
+        if rebalance_band > 0:
+            move = np.abs(tgt - drift)
+            tgt = np.where(move >= rebalance_band, tgt, drift)
         dw = tgt - drift                                 # rebalancing trades (frac NAV)
         adw = np.abs(dw)
         turnover = adw.sum()

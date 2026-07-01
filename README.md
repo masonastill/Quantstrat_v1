@@ -19,8 +19,8 @@ Target runtime: **QuantConnect / LEAN** (Algorithm Framework).
 | Phase | What | Status |
 |---|---|---|
 | **0** | Research notebook: confirm momentum & reversal, distribution shape, sleeve anti-correlation, residual stationarity | **✅ done (real 10y sandbox).** Premises only *partially* supported — `docs/PHASE0_FINDINGS.md` |
-| **1** | Minimal backtest, ≤5–6 params/sleeve, realistic costs | **✅ baseline done; awaiting review.** Net **−1.2%/yr** — costs (MR turnover ~77%/day) dominate; skew negative. `docs/PHASE1_FINDINGS.md` |
-| 2 | Robustness (param plateaus, walk-forward, Deflated Sharpe, PBO) | not started |
+| **1** | Minimal backtest, ≤5–6 params/sleeve, realistic costs | **✅ done.** Net **−1.2%/yr** — costs (MR turnover ~77%/day) dominate; skew negative. `docs/PHASE1_FINDINGS.md` |
+| **2** | Robustness (param plateaus, walk-forward, Deflated Sharpe, PBO) | **✅ done; awaiting review.** MR sleeve **rejected** (fails OOS + negative control); trend-only robust but **DSR 0.65<0.95** and **skew still negative**. `docs/PHASE2_FINDINGS.md` |
 | 3 | Skew-aware evaluation + historical stress windows | not started |
 | 4 | Paper/live staging, monitoring, kill-switch, pre-live checklist | not started |
 
@@ -35,6 +35,8 @@ research/
   sleeve_research.py        Pure analysis primitives (shared everywhere)
   phase1_backtest.py        Phase 1 engine: sleeves + governor + costs + simulator
   run_phase1.py             Phase 1 baseline driver -> performance + cost breakdown
+  phase2_robustness.py      Deflated Sharpe, PBO/CSCV, walk-forward, regime tools
+  run_phase2.py             Phase 2 robustness battery
   data_stockanalysis.py     Real daily-price loader (cached) + universes
   run_real_phase0.py        Driver: Phase 0 on REAL data -> findings
   _phase0_real_results.json Raw results from the real run

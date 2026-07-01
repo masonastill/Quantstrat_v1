@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "n_names": 296,
+    "start": "2015-12-10",
+    "end": "2026-06-30",
+    "source": "stockanalysis.com (survivor-biased sandbox)"
+  },
+  "parameter_robustness": {
+    "rebalance_band_sharpe": {
+      "0.0": -0.066,
+      "0.005": -0.004,
+      "0.01": 0.032,
+      "0.02": 0.091,
+      "0.03": 0.393
+    },
+    "alloc_trend": {
+      "1.0": {
+        "sharpe": 0.649,
+        "skew": -0.83
+      },
+      "0.75": {
+        "sharpe": 0.513,
+        "skew": -0.78
+      },
+      "0.5": {
+        "sharpe": 0.032,
+        "skew": -0.88
+      },
+      "0.25": {
+        "sharpe": -0.213,
+        "skew": -0.72
+      },
+      "0.0": {
+        "sharpe": -0.251,
+        "skew": -0.6
+      }
+    },
+    "mr_z_entry_sharpe": {
+      "1.0": -0.255,
+      "1.5": 0.032,
+      "2.0": 0.247,
+      "2.5": 0.538
+    },
+    "trend_chandelier_atr_sharpe(trend_only)": {
+      "2.0": 0.46,
+      "3.0": 0.649,
+      "4.0": 0.718,
+      "5.0": 0.817
+    }
+  },
+  "universal_principle": {
+    "trend_only_subset_sharpe_mean": 0.30346519483569667,
+    "trend_only_subset_sharpe_std": 0.11611266681954593,
+    "frac_positive": 1.0
+  },
+  "negative_control": {
+    "trend_sleeve": {
+      "trending": 0.2911460135903464,
+      "choppy": 0.3705327551825515
+    },
+    "mr_sleeve": {
+      "trending": 0.9766994619468552,
+      "choppy": 0.09615777280558359
+    },
+    "frac_trending": 0.18740573152337858
+  },
+  "walk_forward": {
+    "trend_only": {
+      "train": {
+        "net_ann": 0.0484,
+        "sharpe": 0.64,
+        "skew": -1.3,
+        "maxDD": -0.132
+      },
+      "validation": {
+        "net_ann": 0.0957,
+        "sharpe": 0.82,
+        "skew": -0.99,
+        "maxDD": -0.118
+      },
+      "holdout": {
+        "net_ann": 0.0619,
+        "sharpe": 0.59,
+        "skew": -0.53,
+        "maxDD": -0.128
+      }
+    },
+    "blend_5050": {
+      "train": {
+        "net_ann": 0.0181,
+        "sharpe": 0.2,
+        "skew": -1.24,
+        "maxDD": -0.15
+      },
+      "validation": {
+        "net_ann": 0.038,
+        "sharpe": 0.33,
+        "skew": -0.83,
+        "maxDD": -0.159
+      },
+      "holdout": {
+        "net_ann": -0.026,
+        "sharpe": -0.28,
+        "skew": -0.6,
+        "maxDD": -0.187
+      }
+    }
+  },
+  "multiple_testing": {
+    "best_config": "a1.0_b0.02_h1",
+    "deflated_sharpe": {
+      "sharpe_annual": 0.8232069640280782,
+      "sr0_benchmark_annual": 0.7004130032194832,
+      "n_trials": 50,
+      "dsr": 0.6511981058625183,
+      "passes_0.95": false
+    },
+    "pbo": {
+      "pbo": 0.0,
+      "n_configs": 18,
+      "n_splits": 10,
+      "median_logit": 2.4567357728213035
+    },
+    "n_trials_assumed": 50
+  }
+}
