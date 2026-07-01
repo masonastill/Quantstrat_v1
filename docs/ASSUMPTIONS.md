@@ -90,8 +90,24 @@ Updated every phase.
 - **KEY finding feeding Phase 2:** MR sleeve ~77%/day turnover (2.3-day holds) →
   ~494 bps/yr drag → net negative. Turnover control is the #1 Phase-2 lever.
 
+## Phase 1.5 — trend sleeve redesign (Option A: drop MR, preserve skew)
+- **MR sleeve DROPPED.** Phase 2 negative-control showed it profits in trends,
+  not chop (a disguised momentum overlay), fails OOS, and is a net drag.
+- **Fixed-shares sizing:** size once at entry (risk_fraction/ (chandelier*vol)),
+  then hold shares — winners' weight is allowed to grow. This is the skew fix.
+- **Wide stop:** chandelier 5×ATR (vs 3×). Give winners room. Sharpe is monotone
+  in stop width; 5× chosen as a sensible mid, NOT the max, to avoid edge-chasing.
+- **Winner cap 20%** (entry cap 3%): winners may run ~10× before any trim.
+- **Trade only on entry/stop-exit** → turnover 83×→7.5×/yr (cost problem solved).
+- **Regime governor halts NEW entries in stress**; never force-trims winners.
+- **Skew measured at trade level + monthly** (daily skew is negative for ALL
+  long equity and is the wrong metric): trade-R skew +3.0, monthly +0.08.
+- **KNOWN GAP:** full Phase 2 battery (DSR/PBO/negative-control) not yet re-run
+  on trend-v2; LEAN algorithm/main.py still encodes the rejected v1 design.
+
 ## Open `[CHOICE]`s deferred to later phases
-- MR turnover control mechanism (rebalance band vs longer holds vs selectivity).
-- Whether the MR sleeve / short leg survives costs in liquid large-caps at all.
-- Extension to liquid futures for true diversification — post-Phase 3.
-- Survivorship-free, 2008-inclusive data re-validation — Phase 2 gate.
+- Re-run DSR/PBO/negative-control on trend-v2 (Phase 1.5 -> 2 gate).
+- Rewrite algorithm/main.py to match trend-v2 (drop MR, fixed-shares).
+- A GENUINE second diversifier (managed-futures trend, or reversion in a small-
+  cap universe) to rebuild the two-sleeve thesis — needs more data.
+- Survivorship-free, 2008-inclusive data re-validation — before any live money.

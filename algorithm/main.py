@@ -18,9 +18,16 @@ from AlgorithmImports import *
 #   Sizing/risk: ATR risk-unit sizing, portfolio vol target, per-name / per-
 #                     sector / gross / net caps.
 #
-# >>> STATUS: UNTESTED in this environment (a free QC account cannot run cloud
-#     backtests, and no LEAN engine is available here). Treat this as a review
-#     draft. First-compile checklist at the bottom of this file. <<<
+# >>> STATUS: UNTESTED review draft (free QC account cannot run cloud backtests).
+#     First-compile checklist at the bottom of this file. <<<
+#
+# >>> OUT OF DATE vs the chosen design. Phase 2 REJECTED the mean-reversion
+#     sleeve and Phase 1.5 redesigned the trend sleeve to a fixed-shares,
+#     let-winners-run construction (research/phase15_trend.py). This file still
+#     encodes the two-sleeve weight-target v1. It must be rewritten to match
+#     trend-v2 (size once at entry, hold shares, wide chandelier, winner cap,
+#     no daily trimming, no MR sleeve) before use. Kept for now as the framework
+#     scaffold. See docs/PHASE15_FINDINGS.md. <<<
 #
 # >>> DATA: run on survivorship-bias-free, point-in-time QC data. The Phase 0/1
 #     sandbox (stockanalysis.com) is survivor-biased and NOT what this should

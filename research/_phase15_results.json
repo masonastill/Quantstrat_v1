@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "n_names": 296,
+    "start": "2015-12-10",
+    "end": "2026-06-30",
+    "source": "stockanalysis.com (survivor-biased sandbox)"
+  },
+  "performance": {
+    "years": 10.523809523809524,
+    "cagr": 0.04102507343312367,
+    "ann_vol": 0.11434735661663055,
+    "sharpe": 0.40906058358039693,
+    "sortino": 0.4369536132486153,
+    "max_drawdown": -0.16043439168349438,
+    "calmar": 0.2557124629116811,
+    "skew": -0.9655150652292119,
+    "excess_kurtosis": 7.037425233347079,
+    "tail_ratio": 0.9265550383816487,
+    "gross_ann_return": 0.04677499642847465,
+    "net_ann_return": 0.04677499642847465
+  },
+  "skew_by_frequency": {
+    "daily": -0.9655150652292119,
+    "weekly": -1.081418369514101,
+    "monthly": 0.08383252731033494,
+    "quarterly": 0.6222767074206952
+  },
+  "trade_R_stats": {
+    "n_trades": 2049,
+    "win_rate": 0.40263543191800877,
+    "avg_win_R": 1.3459357497283058,
+    "avg_loss_R": -0.6976529405654686,
+    "expectancy_R": 0.12516827441372314,
+    "skew_R": 2.998690763923342,
+    "payoff_ratio": 1.929233966443809,
+    "best_R": 17.360040141710247,
+    "worst_R": -3.6514765053062885
+  },
+  "avg_daily_turnover": 0.029668073759298304,
+  "n_trades": 4150,
+  "walk_forward": {
+    "train": {
+      "sharpe": 0.58,
+      "skew": -1.52,
+      "net_ann": 0.0573,
+      "maxDD": -0.139
+    },
+    "validation": {
+      "sharpe": 0.28,
+      "skew": -1.39,
+      "net_ann": 0.0397,
+      "maxDD": -0.153
+    },
+    "holdout": {
+      "sharpe": 0.36,
+      "skew": -0.16,
+      "net_ann": 0.0412,
+      "maxDD": -0.153
+    }
+  },
+  "skew_robustness_grid": {
+    "4.0": {
+      "0.15": {
+        "skew": -0.94,
+        "sharpe": 0.31
+      },
+      "0.2": {
+        "skew": -0.94,
+        "sharpe": 0.31
+      },
+      "0.25": {
+        "skew": -0.94,
+        "sharpe": 0.31
+      }
+    },
+    "5.0": {
+      "0.15": {
+        "skew": -0.97,
+        "sharpe": 0.41
+      },
+      "0.2": {
+        "skew": -0.97,
+        "sharpe": 0.41
+      },
+      "0.25": {
+        "skew": -0.97,
+        "sharpe": 0.41
+      }
+    },
+    "6.0": {
+      "0.15": {
+        "skew": -0.9,
+        "sharpe": 0.57
+      },
+      "0.2": {
+        "skew": -0.9,
+        "sharpe": 0.57
+      },
+      "0.25": {
+        "skew": -0.9,
+        "sharpe": 0.57
+      }
+    }
+  }
+}
