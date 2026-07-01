@@ -23,7 +23,8 @@ Target runtime: **QuantConnect / LEAN** (Algorithm Framework).
 | **2** | Robustness (param plateaus, walk-forward, Deflated Sharpe, PBO) | **✅ done.** MR sleeve **rejected** (fails OOS + negative control); trend-only robust but **DSR 0.65<0.95** and daily-skew negative. `docs/PHASE2_FINDINGS.md` |
 | **1.5** | Redesign trend sleeve for positive skew (drop MR) | **✅ done.** Positive skew **achieved** (trade-R +3.0, monthly +0.08). `docs/PHASE15_FINDINGS.md` |
 | **2-v2** | Re-run robustness battery on trend-v2 | **✅ done.** PBO 0.10, DSR **0.87** (↑ from 0.65), 100% subset-positive; neg-control inconclusive. `docs/PHASE2_V2_FINDINGS.md` |
-| **3** | Skew-aware evaluation + historical stress windows | **✅ done; awaiting review.** Skew +0.28 monthly, maxDD −16% but **~2.3y underwater**; loses less than market in 2018/2020/2022; **2008 untested**. `docs/PHASE3_FINDINGS.md` |
+| **3** | Skew-aware evaluation + historical stress windows | **✅ done.** Sandbox: skew +0.28, maxDD −16%. `docs/PHASE3_FINDINGS.md` |
+| **3-deep** | Re-eval on 2005–2026 incl. 2008/2010 (survivor-only) | **✅ done; awaiting review.** **2008 GFC −0.3% vs mkt −31%** (governor works); full-cycle monthly-skew ≈0, **~6y underwater**. `docs/PHASE3_DEEP_FINDINGS.md` |
 | 4 | Paper/live staging, monitoring, kill-switch, pre-live checklist | not started |
 
 > No phase begins until the previous gate is approved with **"proceed"**.
@@ -43,6 +44,8 @@ research/
   run_phase15.py            Phase 1.5 driver: skew-by-frequency + trade R-multiples
   run_phase2_v2.py          Phase 2 battery re-run on trend-v2
   run_phase3.py             Phase 3 skew-aware metrics + stress windows
+  data_yahoo.py             Deep-history loader (2005+, survivor-biased)
+  run_phase3_deep.py        Phase 3 re-eval on 2005-2026 incl. 2008/2010
   data_stockanalysis.py     Real daily-price loader (cached) + universes
   run_real_phase0.py        Driver: Phase 0 on REAL data -> findings
   _phase0_real_results.json Raw results from the real run

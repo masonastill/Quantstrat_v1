@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "config": "trend-v2 chandelier=4xATR",
+    "n_names": 283,
+    "start": "2005-01-03",
+    "end": "2026-06-30",
+    "source": "Yahoo (survivor-biased, deep history)"
+  },
+  "metrics": {
+    "cagr": 0.039414516018287715,
+    "ann_vol": 0.11334808031962841,
+    "sharpe": 0.3979896035091753,
+    "sortino": 0.4410596882844083,
+    "calmar_mar": 0.21820434046111664,
+    "max_drawdown": -0.18063121904447754,
+    "recovery_days": 166,
+    "longest_underwater_days": 1546,
+    "skew_daily": -0.9097249011090123,
+    "skew_monthly": -0.02872972828076319,
+    "excess_kurtosis_daily": 6.171433051855745,
+    "tail_ratio": 0.9131639746430772,
+    "win_rate": 0.4136105118650716,
+    "avg_win_R": 1.254915334208664,
+    "avg_loss_R": -0.693756873163866,
+    "expectancy_R": 0.11223443598472513,
+    "payoff_ratio": 1.8088690472869045,
+    "best_R": 14.146601186079339,
+    "worst_R": -3.5793392133965396,
+    "n_trades": 5099,
+    "avg_annual_turnover_x": 11.018880155587322
+  },
+  "capacity": {
+    "median_name_ADV_usd": 184741752.33106613,
+    "assumed_entry_weight": 0.02,
+    "assumed_adv_participation_cap": 0.1,
+    "approx_capacity_usd": 923708761.6553307
+  },
+  "stress_windows": {
+    "2008_GFC": {
+      "strategy_return": -0.0030132472224261297,
+      "strategy_maxDD": -0.003728767033653435,
+      "worst_day": -0.002151578727662695,
+      "market_return": -0.3057862626047714
+    },
+    "2010_flash_crash": {
+      "strategy_return": -0.11083303556053625,
+      "strategy_maxDD": -0.13751587076824823,
+      "worst_day": -0.05040022097550989,
+      "market_return": -0.11385328726515509
+    },
+    "2011_euro_crisis": {
+      "strategy_return": -0.03876200638519378,
+      "strategy_maxDD": -0.054676996002092304,
+      "worst_day": -0.013378399124785223,
+      "market_return": -0.04831425996482552
+    },
+    "2015-16_selloff": {
+      "strategy_return": -0.09795620441098674,
+      "strategy_maxDD": -0.11336335242457207,
+      "worst_day": -0.037223934120172,
+      "market_return": -0.06236783007517577
+    },
+    "2018Q4_selloff": {
+      "strategy_return": -0.10990193648055191,
+      "strategy_maxDD": -0.11648105729285729,
+      "worst_day": -0.032153910451355405,
+      "market_return": -0.120576065983097
+    },
+    "2020_covid_crash": {
+      "strategy_return": -0.1141784476065324,
+      "strategy_maxDD": -0.12137265968449862,
+      "worst_day": -0.04240041379621884,
+      "market_return": -0.14360103583736084
+    },
+    "2022_bear": {
+      "strategy_return": -0.06494247415660248,
+      "strategy_maxDD": -0.10303719449585313,
+      "worst_day": -0.026218532464664546,
+      "market_return": -0.07803869816259135
+    }
+  }
+}
